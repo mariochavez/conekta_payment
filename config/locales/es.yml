@@ -1,0 +1,16 @@
+es:
+  conekta_payment:
+    pay:
+      new:
+        shop_title: 'Su orden'
+        shop_details: 'Detalles de su orden'
+        subtotal: 'Subtotal'
+
+  money:
+    unit: 'MXN$ '
+
+  placeholder:
+    email: 'mario@mi-email.com'
+
+  hint:
+    email: 'Verifique que su email sea correcto.'

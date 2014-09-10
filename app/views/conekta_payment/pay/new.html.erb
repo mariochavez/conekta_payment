@@ -1,0 +1,31 @@
+<div class="pure-g container">
+  <div class="pure-u-1">
+    <h1><%= t('.shop_title') %></h1>
+  </div>
+
+  <%- shopping_cart[:items].each do |item| %>
+    <div class="pure-u-md-1-2">
+      <p class='product-name'><%= item[:name] %></p>
+    </div>
+    <div class="pure-u-md-1-2">
+      <p class='product-price'>
+        <%= "#{number_to_currency(item[:price], unit: t('money.unit'))} x #{item[:quantity]}"%>
+      </p>
+    </div>
+  <% end %>
+
+  <div class="pure-u-1 subtotal">
+    <p><%= "#{t('.subtotal')} #{number_to_currency(shopping_cart[:subtotal], unit: t('money.unit'))}" %></p>
+  </div>
+
+  <%= form_for @pay, html: { class: 'pure-form' }, url: pay_path  do |form| %>
+    <div class="pure-u-1">
+      <h2><%= t('.shop_details') %></h2>
+      <%= form.hidden_field :cart_id, value: shopping_cart[:cart_id] %>
+      <%= form.label :email %>
+      <%= form.text_field :email, type: 'email',
+        placeholder: t('placeholder.email'), maxlength: 40 %>
+      <span class='hint'><%= t('hint.email') %></span>
+    </div>
+  <% end %>
+</div>

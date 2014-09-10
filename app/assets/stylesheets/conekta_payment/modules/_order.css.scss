@@ -1,0 +1,30 @@
+h1, h2 {
+  border-bottom: solid 1px #ccc;
+}
+
+form {
+  width: 100%;
+
+  label {
+    min-width: 4em;
+    display: inline-block;
+  }
+
+  .hint {
+    display: block;
+    padding-left: 4.8em;
+    padding-top: 0.5em;
+    font-size: 0.9em;
+    color: #aaa;
+  }
+
+  input[type="email"] {
+    width: 40%;
+  }
+}
+
+.subtotal {
+  background-color: #eee;
+  text-align: right;
+  font-weight: bold;
+}

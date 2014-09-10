@@ -26,10 +26,13 @@ if ActiveSupport::TestCase.method_defined?(:fixture_path=)
 end
 
 class Minitest::Unit::TestCase
+
   class << self
     alias_method :context, :describe
   end
 end
+
+include FeaturesHelper
 
 Capybara.javascript_driver = :poltergeist
 Capybara.default_driver = :poltergeist
