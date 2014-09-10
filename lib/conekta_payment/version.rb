@@ -1,0 +1,3 @@
+module ConektaPayment
+  VERSION = "0.0.1"
+end
