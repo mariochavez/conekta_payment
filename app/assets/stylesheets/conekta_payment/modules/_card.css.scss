@@ -1,0 +1,21 @@
+#card-fields {
+  margin: 1em auto;
+  width: 355px;
+}
+
+#card_name, #card_number {
+  width: 175px;
+}
+
+#card_expiry, #card_cvc {
+  width: 100px;
+  margin-top: 1em;
+}
+
+.card-area {
+  background-color: #eee;
+}
+
+.front, .back {
+  background-color: #999 !important;
+}

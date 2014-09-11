@@ -17,6 +17,12 @@ feature 'Bank Payment Test' do
   scenario 'display order details' do
     within('#new_pay') do
       page.must_have_css '#pay_email'
+      page.must_have_css '#card_number'
+      page.must_have_css '#card_name'
+      page.must_have_css '#card_expiry'
+      page.must_have_css '#card_cvc'
+      page.must_have_css '#pay_action'
     end
   end
+
 end

@@ -5,12 +5,22 @@ es:
         shop_title: 'Su orden'
         shop_details: 'Detalles de su orden'
         subtotal: 'Subtotal'
+        payment_method: 'Método de pago'
+        card_notice: 'Los datos de su tarjeta se cifran antes de ser transmitidos.'
+        credit_payment: 'Para pagar con tarjeta de crédito o débito llene los siguientes datos.'
+        valid_date: 'Fecha\nválida'
+        month_year: 'mm/yy'
+        card_name: 'NOMBRE COMPLETO'
 
   money:
     unit: 'MXN$ '
 
   placeholder:
-    email: 'mario@mi-email.com'
+    email: 'Dirección de correo electrónico'
+    card_name: 'Nombre en tarjeta'
+    card_number: 'Número de tarjeta'
+    card_cvc: 'CVC'
+    card_expiry: 'MM/YY'
 
   hint:
     email: 'Verifique que su email sea correcto.'

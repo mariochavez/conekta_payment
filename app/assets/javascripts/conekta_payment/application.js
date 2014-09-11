@@ -13,3 +13,4 @@
 //= require jquery-2.1.1.min
 //= require jquery_ujs
 //= require card
+//= require card-widget

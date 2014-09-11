@@ -18,8 +18,20 @@ form {
     color: #aaa;
   }
 
+  .hint-general {
+    display: block;
+    padding: 1em;
+    text-align: center;
+    font-size: 0.9em;
+    color: #aaa;
+  }
+
   input[type="email"] {
     width: 40%;
+  }
+
+  h3 {
+    margin-top: 2em;
   }
 }
 
@@ -27,4 +39,14 @@ form {
   background-color: #eee;
   text-align: right;
   font-weight: bold;
+}
+
+.action {
+  text-align: center;
+  padding-top: 2em;
+
+  .pure-button-primary {
+    width: 15em;
+    padding: 1em;
+  }
 }

@@ -8,7 +8,7 @@
       <p class='product-name'><%= item[:name] %></p>
     </div>
     <div class="pure-u-md-1-2">
-      <p class='product-price'>
+      <p class="product-price">
         <%= "#{number_to_currency(item[:price], unit: t('money.unit'))} x #{item[:quantity]}"%>
       </p>
     </div>
@@ -22,10 +22,44 @@
     <div class="pure-u-1">
       <h2><%= t('.shop_details') %></h2>
       <%= form.hidden_field :cart_id, value: shopping_cart[:cart_id] %>
+      <%= form.hidden_field :total, value: shopping_cart[:subtotal] %>
       <%= form.label :email %>
       <%= form.text_field :email, type: 'email',
         placeholder: t('placeholder.email'), maxlength: 40 %>
-      <span class='hint'><%= t('hint.email') %></span>
+      <span class="hint"><%= t('hint.email') %></span>
+    </div>
+
+    <div class="pure-u-1">
+      <h3><%= t('.payment_method') %></h3>
+      <div class="pure-u-md-1-2 card-area">
+        <span class="hint-general"><%= t('.credit_payment') %></span>
+        <div id="card"></div>
+        <div id="card-fields">
+          <span class="hint-general"><%= t('.card_notice') %></span>
+          <%= text_field_tag :card_number, nil, name: 'card_number', placeholder: t('placeholder.card_number') %>
+          <%= text_field_tag :card_name, nil, name: 'card_name', placeholder: t('placeholder.card_name') %>
+          <%= text_field_tag :card_expiry, nil, name: 'card_expiry', placeholder: t('placeholder.card_expiry') %>
+          <%= text_field_tag :card_cvc, nil, name: 'card_cvc', placeholder: t('placeholder.card_cvc') %>
+        </div>
+      </div>
+      <div class="pure-u-md-1-2"></div>
+    </div>
+
+    <div class="pure-u-1 action">
+      <%= form.submit "Pagar #{number_to_currency(shopping_cart[:subtotal], unit: t('money.unit'))}", class: 'pure-button pure-button-primary', id: 'pay_action' %>
     </div>
   <% end %>
 </div>
+
+<% content_for :javascripts  do %>
+  <script type="text/javascript">
+    $(function() {
+        var cardWidget = new CardWidget('#new_pay', {
+          validDate: "<%= t('.valid_date') %>",
+          monthYear: "<%= t('.month_year') %>"
+          }, {
+          name: "<%= t('.card_name') %>"
+          });
+    });
+  </script>
+<% end %>
