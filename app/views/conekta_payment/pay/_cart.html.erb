@@ -1,0 +1,14 @@
+<%- shopping_cart[:items].each do |item| %>
+  <div class="pure-u-md-1-2">
+    <p class='product-name'><%= item[:name] %></p>
+  </div>
+  <div class="pure-u-md-1-2">
+    <p class="product-price">
+      <%= "#{number_to_currency(item[:price], unit: t('money.unit'))} x #{item[:quantity]}"%>
+    </p>
+  </div>
+<% end %>
+
+<div class="pure-u-1 subtotal">
+  <p><%= "#{t('.subtotal')} #{number_to_currency(shopping_cart[:subtotal], unit: t('money.unit'))}" %></p>
+</div>

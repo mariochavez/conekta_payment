@@ -3,20 +3,7 @@
     <h1><%= t('.shop_title') %></h1>
   </div>
 
-  <%- shopping_cart[:items].each do |item| %>
-    <div class="pure-u-md-1-2">
-      <p class='product-name'><%= item[:name] %></p>
-    </div>
-    <div class="pure-u-md-1-2">
-      <p class="product-price">
-        <%= "#{number_to_currency(item[:price], unit: t('money.unit'))} x #{item[:quantity]}"%>
-      </p>
-    </div>
-  <% end %>
-
-  <div class="pure-u-1 subtotal">
-    <p><%= "#{t('.subtotal')} #{number_to_currency(shopping_cart[:subtotal], unit: t('money.unit'))}" %></p>
-  </div>
+  <%= render 'cart' %>
 
   <%= form_for @pay, html: { class: 'pure-form' }, url: pay_path  do |form| %>
     <div class="pure-u-1">
@@ -29,21 +16,7 @@
       <span class="hint"><%= t('hint.email') %></span>
     </div>
 
-    <div class="pure-u-1">
-      <h3><%= t('.payment_method') %></h3>
-      <div class="pure-u-md-1-2 card-area">
-        <span class="hint-general"><%= t('.credit_payment') %></span>
-        <div id="card"></div>
-        <div id="card-fields">
-          <span class="hint-general"><%= t('.card_notice') %></span>
-          <%= text_field_tag :card_number, nil, name: 'card_number', placeholder: t('placeholder.card_number') %>
-          <%= text_field_tag :card_name, nil, name: 'card_name', placeholder: t('placeholder.card_name') %>
-          <%= text_field_tag :card_expiry, nil, name: 'card_expiry', placeholder: t('placeholder.card_expiry') %>
-          <%= text_field_tag :card_cvc, nil, name: 'card_cvc', placeholder: t('placeholder.card_cvc') %>
-        </div>
-      </div>
-      <div class="pure-u-md-1-2"></div>
-    </div>
+    <%= render 'card' %>
 
     <div class="pure-u-1 action">
       <%= form.submit "Pagar #{number_to_currency(shopping_cart[:subtotal], unit: t('money.unit'))}", class: 'pure-button pure-button-primary', id: 'pay_action' %>

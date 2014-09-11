@@ -1,0 +1,15 @@
+<div class="pure-u-1">
+  <h3><%= t('.payment_method') %></h3>
+  <div class="pure-u-md-1-2 card-area">
+    <span class="hint-general"><%= t('.credit_payment') %></span>
+    <div id="card"></div>
+    <div id="card-fields">
+      <span class="hint-general"><%= t('.card_notice') %></span>
+      <%= text_field_tag :card_number, nil, name: 'card_number', placeholder: t('placeholder.card_number') %>
+      <%= text_field_tag :card_name, nil, name: 'card_name', placeholder: t('placeholder.card_name') %>
+      <%= text_field_tag :card_expiry, nil, name: 'card_expiry', placeholder: t('placeholder.card_expiry') %>
+      <%= text_field_tag :card_cvc, nil, name: 'card_cvc', placeholder: t('placeholder.card_cvc') %>
+    </div>
+  </div>
+  <div class="pure-u-md-1-2"></div>
+</div>
