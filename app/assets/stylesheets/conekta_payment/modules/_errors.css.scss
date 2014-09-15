@@ -1,0 +1,22 @@
+.error {
+  border: solid 1px #ee8888 !important;
+  color: #ee5555;
+}
+
+.message-area {
+  display: none;
+}
+
+.error-area {
+  display: block;
+  background-color: #eecccc !important;
+  color: #ee5555;
+  padding: 0.2em;
+  margin: 0 0 1em 0;
+
+  p {
+    text-align: left;
+    font-weight: lighter;
+    margin: 1em;
+  }
+}

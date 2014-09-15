@@ -14,3 +14,4 @@
 //= require jquery_ujs
 //= require card
 //= require card-widget
+//= require pre-process

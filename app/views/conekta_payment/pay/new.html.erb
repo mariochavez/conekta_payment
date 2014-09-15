@@ -19,7 +19,10 @@
     <%= render 'card' %>
 
     <div class="pure-u-1 action">
-      <%= form.submit "Pagar #{number_to_currency(shopping_cart[:subtotal], unit: t('money.unit'))}", class: 'pure-button pure-button-primary', id: 'pay_action' %>
+      <div class="message-area">
+      </div>
+
+      <%= form.submit "Pagar #{number_to_currency(shopping_cart[:subtotal], unit: t('money.unit'))}", class: 'pure-button pure-button-primary', id: 'pay_action', disabled: true %>
     </div>
   <% end %>
 </div>
@@ -32,6 +35,36 @@
           monthYear: "<%= t('.month_year') %>"
           }, {
           name: "<%= t('.card_name') %>"
+          });
+
+        var preProcessor = new PreProcess('#new_pay', '#pay_action',
+          {
+            config: {
+              message_area_class: 'message-area',
+              message_area_error_class: 'error-area',
+              field_error_class: 'error',
+              message_area: "<%= t('conekta_payment.errors.message') %>"
+            },
+            validators: {
+              card_number: {
+                validator: 'validateNumber',
+                klass: Conekta.card
+              }
+            },
+            messages: {
+              email: "<%= t('conekta_payment.errors.email') %>",
+              card_number: "<%= t('conekta_payment.errors.card_number') %>",
+              card_cvc: "<%= t('conekta_payment.errors.card_cvc') %>",
+              card_name: "<%= t('conekta_payment.errors.card_name') %>",
+              card_expiry: "<%= t('conekta_payment.errors.card_expiry') %>"
+            },
+            fields: {
+              card_number: 'card_number',
+              card_cvc: 'card_cvc',
+              card_name: 'card_name',
+              card_expiry: 'card_expiry',
+              email: 'pay_email'
+            }
           });
     });
   </script>

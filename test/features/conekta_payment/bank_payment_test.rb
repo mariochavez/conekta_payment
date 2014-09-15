@@ -25,4 +25,12 @@ feature 'Bank Payment Test' do
     end
   end
 
+  scenario 'display errors on submit when data incomplete' do
+    within('#new_pay') do
+      click_button 'Pagar MXN$ 200.00'
+
+      page.must_have_css '.error-area'
+      page.all('.error').length.must_equal 5
+    end
+  end
 end

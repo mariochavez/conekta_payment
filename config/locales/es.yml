@@ -5,14 +5,24 @@ es:
         shop_title: 'Su orden'
         shop_details: 'Detalles de su orden'
         payment_method: 'Método de pago'
-        card_notice: 'Los datos de su tarjeta se cifran antes de ser transmitidos.'
-        credit_payment: 'Para pagar con tarjeta de crédito o débito llene los siguientes datos.'
         valid_date: 'Fecha\nválida'
         month_year: 'mm/yy'
         card_name: 'NOMBRE COMPLETO'
 
+      card:
+        card_notice: 'Los datos de su tarjeta se cifran antes de ser transmitidos.'
+        credit_payment: 'Para pagar con tarjeta de crédito o débito llene los siguientes datos.'
+
       cart:
         subtotal: 'Subtotal'
+
+    errors:
+      message: 'Se encontraron los siguientes errores al procesar su pago:'
+      card_number: 'número de tarjeta inválido'
+      card_name: 'nombre inválido'
+      card_cvc: 'número de CVC inválido'
+      card_expiry: 'fecha de expiración inválida'
+      email: 'email inválido'
 
   money:
     unit: 'MXN$ '
