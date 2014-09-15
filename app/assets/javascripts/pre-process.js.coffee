@@ -56,6 +56,8 @@ class PreProcess
     @$button = ($ button)
     @$form.submit @processForm
 
+    Conekta.setPublishableKey ($ 'meta[name="conekta-key"]').attr('content')
+
     jQuery.extend(@validators, options.validators) if options['validators']
     jQuery.extend(@card_fields, options.fields) if options['fields']
     jQuery.extend(@error_messages, options.messages) if options['messages']
@@ -68,9 +70,42 @@ class PreProcess
     @$button.attr('disabled', true)
     @clearErrors(@$form)
 
-    unless @validate(@$form)
+    if @validate(@$form)
+      @startPayment()
+    else
       @renderErrors @$form, @errors
       @$button.attr('disabled', false)
+
+  startPayment: ->
+    [month, year] = PreProcess.formatDate(@values.card_expiry)
+    card_params =
+      card:
+        number: @values.card_number
+        name: @values.card_name
+        cvc: @values.card_cvc
+        exp_year: year
+        exp_month: month
+
+    Conekta.token.create card_params, @processPayment, @errorToken
+
+  errorToken: (error) =>
+    switch error.code
+      when 'invalid_expiry_month', 'invalid_expiry_year'
+        @errors = { card_expiry: @error_messages.card_expiry }
+      when 'invalid_cvc'
+        @errors = { card_cvc: @error_messages.card_cvc }
+      when 'invalid_name'
+        @errors = { card_name: @error_messages.card_name }
+      when 'invalid_number'
+        @errors = { card_number: @error_messages.card_number }
+      else
+        @errors = { consumer: error.message_to_purchaser }
+
+    @renderErrors @$form, @errors
+    @$button.attr('disabled', false)
+
+  processPayment: (token) =>
+    @debugObject 'TOKEN', token
 
   clearErrors: (form) ->
     form.find('.error').removeClass('error')

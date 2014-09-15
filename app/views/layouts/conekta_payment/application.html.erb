@@ -4,6 +4,7 @@
   <title>ConektaPayment</title>
   <%= stylesheet_link_tag    "conekta_payment/application", media: "all" %>
   <%= csrf_meta_tags %>
+  <%= tag :meta, name: 'conekta-key', content: ConektaPayment.public_key %>
 </head>
 <body>
 

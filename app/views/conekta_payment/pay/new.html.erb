@@ -10,6 +10,8 @@
       <h2><%= t('.shop_details') %></h2>
       <%= form.hidden_field :cart_id, value: shopping_cart[:cart_id] %>
       <%= form.hidden_field :total, value: shopping_cart[:subtotal] %>
+      <%= form.hidden_field :conekta_token %>
+      <%= form.hidden_field :last_four %>
       <%= form.label :email %>
       <%= form.text_field :email, type: 'email',
         placeholder: t('placeholder.email'), maxlength: 40 %>

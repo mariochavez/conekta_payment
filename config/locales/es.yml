@@ -20,7 +20,7 @@ es:
       message: 'Se encontraron los siguientes errores al procesar su pago:'
       card_number: 'número de tarjeta inválido'
       card_name: 'nombre inválido'
-      card_cvc: 'número de CVC inválido'
+      card_cvc: 'número de CVC(código de seguridad) inválido'
       card_expiry: 'fecha de expiración inválida'
       email: 'email inválido'
 
