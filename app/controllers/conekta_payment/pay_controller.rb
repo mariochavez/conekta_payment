@@ -18,12 +18,19 @@ module ConektaPayment
       @pay.cash_type = BANK_CASH_TYPE unless @pay.cash_type = OXXO_CASH_TYPE
 
       if @pay.valid?
-        @pay.charge = Conekta::Charge.create @pay.to_charge
-        @pay.save!
-      else
-        puts "$$$ #{@pay.inspect}"
-        puts "$$$ #{@pay.errors.inspect}"
+        begin
+          @pay.charge = Conekta::Charge.create @pay.to_charge
+          @pay.save!
+
+          return render(:create) if @pay.paid?
+        rescue Exception => @ex
+          Rails.logger.info "[PaymentError]:: #{@ex.message}\nDetails:: #{@ex.to_s}"
+          return render :error
+        end
       end
+
+      Rails.logger.info "[PaymentFailed]:: #{@pay.valid? ? @pay.charge['id'] : @pay.cart_id}"
+      render :new
     end
 
     private

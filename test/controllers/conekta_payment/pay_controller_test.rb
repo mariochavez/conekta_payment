@@ -14,17 +14,29 @@ module ConektaPayment
     end
 
     it 'process payment sucessful' do
-
       Conekta::Charge.stub :create, successful_payment do
-        post :create, pay: {
-          cart_id: 1,
-          total: 200.00,
-          conekta_token: 'token',
-          email: 'sample@email.com',
-        }
+        post :create, pay: payment
 
         must_respond_with :success
         must_render_template :create
+      end
+    end
+
+    it 'display apologize on critical error' do
+      Conekta::Charge.stub :create, raise_exception do
+        post :create, pay: payment
+
+        must_respond_with :success
+        must_render_template :error
+      end
+    end
+
+    it 'display payment form if payment error out' do
+      Conekta::Charge.stub :create, failed_payment do
+        post :create, pay: payment
+
+        must_respond_with :success
+        must_render_template :new
       end
     end
   end
