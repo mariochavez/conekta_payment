@@ -7,12 +7,13 @@ class ApplicationController < ActionController::Base
   def shopping_cart_hash
     {
       cart_id: 1,
-      subtotal: 200,
+      subtotal: 200.00,
+      description: 'Compra de eBooks Aprendiendo Ruby on Rails 4.0',
       items: [
         {
           product_id: 1,
           name: 'eBook Aprendiendo Ruby on Rails 4.0',
-          price: 200,
+          price: 200.00,
           quantity: 1
         }
       ]

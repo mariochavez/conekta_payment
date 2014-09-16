@@ -38,6 +38,7 @@ class PreProcess
     message_area_error_class: 'error-area'
     field_error_class: 'error'
     message_area: 'Se encontraron los siguientes errores al procesar su pago:'
+    token_field: 'conekta_token'
 
   @validateEmail: (email) ->
     email.trim().length > 5
@@ -106,6 +107,7 @@ class PreProcess
 
   processPayment: (token) =>
     @debugObject 'TOKEN', token
+    @$form.find("##{@config.token_field}")
 
   clearErrors: (form) ->
     form.find('.error').removeClass('error')

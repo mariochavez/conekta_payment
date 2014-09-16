@@ -9,3 +9,5 @@ test/dummy/.sass-cache
 *.swp
 *.un~
 *.sqlite3
+*.swo
+.env
