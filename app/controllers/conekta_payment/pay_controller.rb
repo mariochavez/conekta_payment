@@ -18,9 +18,11 @@ module ConektaPayment
 
         if error.nil?
           @pay.charge = response
-          @pay.save
 
           error = PaymentError.new(Exception.new(@pay.charge['failure_message']), true) if !@pay.paid?
+
+          @pay.error = error.try(:to_hash)
+          @pay.save
 
           view = :create if @pay.paid?
         else

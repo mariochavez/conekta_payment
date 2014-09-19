@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20140910224916) do
     t.decimal  "total",      precision: 5, scale: 2
     t.hstore   "cart",                                               null: false
     t.hstore   "charge"
+    t.hstore   "error"
     t.boolean  "paid",                               default: false
     t.string   "last_four"
     t.datetime "created_at"

@@ -9,6 +9,7 @@ module ConektaPayment
 
         begin
           response = Conekta::Charge.create(charge)
+          Rails.logger.info ">> #{response}"
           payment = JSON.parse response.inspect.gsub('=>', ':').gsub('nil', 'null')
         rescue Conekta::ParameterValidationError, Conekta::ProcessingError => ex
           error = ConektaPayment::PaymentError.new ex, true

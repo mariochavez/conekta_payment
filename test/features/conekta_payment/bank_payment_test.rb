@@ -40,17 +40,39 @@ feature 'Bank Payment Test' do
 
   scenario 'display confirmation page on successful payment' do
     within('#new_pay') do
-      fill_in 'pay_email', with: 'sample@email.com'
+      # Due to the script used for card fill_in does not work
+      # so we have to set card values with javascript
       #fill_in 'card_number', with: '4242424242424242'
-      page.execute_script("$('#card_number').val('4242 4242 4242 4242')")
-      fill_in 'card_name', with: 'John Doe'
       #fill_in 'card_expiry', with: '01 20'
+      page.execute_script("$('#card_number').val('4242 4242 4242 4242')")
       page.execute_script("$('#card_expiry').val('01 / 20')")
+
+      fill_in 'pay_email', with: 'sample@email.com'
+      fill_in 'card_name', with: 'John Doe'
       fill_in 'card_cvc', with: '987'
 
       click_button 'Pagar MXN$ 200.00'
     end
 
     page.must_have_content 'Pay#create'
+  end
+
+  scenario 'display error page on unrecoverable error' do
+    within('#new_pay') do
+      # Due to the script used for card fill_in does not work
+      # so we have to set card values with javascript
+      #fill_in 'card_number', with: '4242424242424242'
+      #fill_in 'card_expiry', with: '01 20'
+      page.execute_script("$('#card_number').val('4539 1707 2466 9919')")
+      page.execute_script("$('#card_expiry').val('01 / 20')")
+
+      fill_in 'pay_email', with: 'sample@email.com'
+      fill_in 'card_name', with: 'John Doe'
+      fill_in 'card_cvc', with: '987'
+
+      click_button 'Pagar MXN$ 200.00'
+    end
+
+    page.must_have_content 'Pay#error'
   end
 end

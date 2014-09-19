@@ -9,12 +9,12 @@ Gem::Specification.new do |s|
   s.version     = ConektaPayment::VERSION
   s.authors     = ["Mario A Chavez"]
   s.email       = ["mario.chavez@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of ConektaPayment."
-  s.description = "TODO: Description of ConektaPayment."
+  s.homepage    = "http://railsenepsanol.co"
+  s.summary     = "Rails engine to process payments via Conekta."
+  s.description = "A mountable Rails engine that handle all the steps to process payments via mexican gateway Conekta."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "coffee-rails"

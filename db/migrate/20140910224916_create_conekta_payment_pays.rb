@@ -9,6 +9,7 @@ class CreateConektaPaymentPays < ActiveRecord::Migration
       t.decimal   :total,     precision: 5, scale: 2
       t.hstore    :cart,      null: false
       t.hstore    :charge
+      t.hstore    :error
       t.boolean   :paid,      default: false
       t.string    :last_four
 
