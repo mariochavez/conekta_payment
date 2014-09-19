@@ -1,12 +1,7 @@
 require_dependency "conekta_payment/application_controller"
-require_dependency "conekta"
 
 module ConektaPayment
   class PayController < ApplicationController
-    BANK_CASH_TYPE = 'BANCO'.freeze
-    OXXO_CASH_TYPE = 'OXXO'.freeze
-
-    before_action :set_conekta, only: :create
 
     def new
       @pay = Pay.new
@@ -15,34 +10,44 @@ module ConektaPayment
     def create
       @pay = Pay.new pay_params
       @pay.cart = shopping_cart
-      @pay.cash_type = BANK_CASH_TYPE unless @pay.cash_type = OXXO_CASH_TYPE
+      @pay.cash_type = ConektaPayment::BANK_CASH_TYPE unless @pay.cash_type = ConektaPayment::OXXO_CASH_TYPE
 
       if @pay.valid?
-        begin
-          @pay.charge = Conekta::Charge.create @pay.to_charge
-          @pay.save!
+        response, error = BankPaymentProcessor.create_charge(@pay.to_charge)
+        view = :new
 
-          return render(:create) if @pay.paid?
-        rescue Exception => @ex
-          Rails.logger.info "[PaymentError]:: #{@ex.message}\nDetails:: #{@ex.to_s}"
-          return render :error
+        if error.nil?
+          @pay.charge = response
+          @pay.save
+
+          error = PaymentError.new(Exception.new(@pay.charge['failure_message']), true) if !@pay.paid?
+
+          view = :create if @pay.paid?
+        else
+          view = :error unless error.recoverable
         end
       end
 
-      Rails.logger.info "[PaymentFailed]:: #{@pay.valid? ? @pay.charge['id'] : @pay.cart_id}"
-      render :new
+      log_message error, @pay if error
+      render view
     end
 
     private
-    def pay_params
-      params.require(:pay).permit(:cart_id, :total, :conekta_token, :email)
+    def log_message(error, payment)
+
+      if error.recoverable
+        title = 'PaymentFailed'
+        message = "Reference: #{payment.try(:charge).try('[]', 'id') || payment.cart_id} - #{payment.try(:charge).try('[]', 'failure_message') || error.message}"
+      else
+        title = 'PaymentError'
+        message = "#{error.inner_class}: [#{error.code}]: #{error.message}"
+      end
+
+      Rails.logger.error "[#{title}]:: #{message}"
     end
 
-    def set_conekta
-      if Conekta.api_key.nil?
-        Conekta.locale = :es
-        Conekta.api_key = ConektaPayment.private_key
-      end
+    def pay_params
+      params.require(:pay).permit(:cart_id, :total, :conekta_token, :email, :last_four)
     end
   end
 end

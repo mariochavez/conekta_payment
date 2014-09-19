@@ -1,21 +1,9 @@
-GIT
-  remote: git://github.com/mariochavez/conekta-ruby.git
-  revision: c6d56fa9ebe46f474d545004c898f3520ef6a0c6
-  branch: fix-locales-loading
-  specs:
-    conekta (0.4.7)
-      bundler (~> 1.3)
-      faraday
-      json
-      rake
-      rspec
-      sys-uname
-
 PATH
   remote: .
   specs:
     conekta_payment (0.0.1)
       coffee-rails
+      conekta
       jquery-rails
       pg
       rails (~> 4.1.5)
@@ -72,6 +60,13 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    conekta (0.4.7)
+      bundler (~> 1.3)
+      faraday
+      json
+      rake
+      rspec
+      sys-uname
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     daemons (1.1.9)
@@ -122,6 +117,8 @@ GEM
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     polyglot (0.3.5)
+    pretty_formatter (0.0.2)
+      activesupport (>= 3.2)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -202,13 +199,13 @@ PLATFORMS
 
 DEPENDENCIES
   better_errors
-  conekta!
   conekta_payment!
   launchy
   minitest-rails
   minitest-rails-capybara
   nokogiri (= 1.6.3)
   poltergeist
+  pretty_formatter
   pry-rails
   thin
   webmock

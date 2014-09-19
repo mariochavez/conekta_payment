@@ -39,6 +39,8 @@ class PreProcess
     field_error_class: 'error'
     message_area: 'Se encontraron los siguientes errores al procesar su pago:'
     token_field: 'conekta_token'
+    last_four_field: 'last_four'
+    test: false
 
   @validateEmail: (email) ->
     email.trim().length > 5
@@ -87,7 +89,22 @@ class PreProcess
         exp_year: year
         exp_month: month
 
-    Conekta.token.create card_params, @processPayment, @errorToken
+    @cardFieldsDisable true
+
+    # This is facility to test environment
+    if @config.test
+      @processPayment({id: "tok_#{card_params.card.number.slice(-4)}"})
+    else
+      Conekta.token.create card_params, @processPayment, @errorToken
+
+  cardFieldsDisable: (disabled) =>
+    card_fields = for field, value of @card_fields
+      "##{value}" if field.slice(0, 4) is 'card'
+
+    filtered_fields = (card_fields.filter (field) ->
+      field isnt undefined).join(', ')
+
+    @$form.find(filtered_fields).attr('disabled', disabled)
 
   errorToken: (error) =>
     switch error.code
@@ -104,10 +121,14 @@ class PreProcess
 
     @renderErrors @$form, @errors
     @$button.attr('disabled', false)
+    @cardFieldsDisable false
 
   processPayment: (token) =>
-    @debugObject 'TOKEN', token
-    @$form.find("##{@config.token_field}")
+    @$form.find("##{@config.token_field}").val(token['id'])
+    @$form.find("##{@config.last_four_field}").val(@values[@card_fields['card_number']].slice(-4))
+
+
+    @$form[0].submit()
 
   clearErrors: (form) ->
     form.find('.error').removeClass('error')

@@ -13,5 +13,6 @@ gemspec
 # To use debugger
 # gem 'debugger'
 
+#gem 'conekta', github: 'mariochavez/conekta-ruby', branch: 'fix-exception-with-locales'
 gem 'nokogiri', "= 1.6.3"
-gem 'conekta', github: 'mariochavez/conekta-ruby', branch: 'fix-locales-loading'
+gem 'pretty_formatter'

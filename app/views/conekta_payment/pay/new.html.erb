@@ -11,6 +11,7 @@
       <%= form.hidden_field :cart_id, value: shopping_cart[:cart_id] %>
       <%= form.hidden_field :total, value: shopping_cart[:subtotal] %>
       <%= form.hidden_field :conekta_token %>
+      <%= form.hidden_field :last_four %>
       <%= form.label :email %>
       <%= form.text_field :email, type: 'email',
         placeholder: t('placeholder.email'), maxlength: 40 %>
@@ -45,7 +46,9 @@
               message_area_error_class: 'error-area',
               field_error_class: 'error',
               message_area: "<%= t('conekta_payment.errors.message') %>",
-              token_field: 'conekta_token'
+              token_field: 'pay_conekta_token',
+              last_four_field: 'pay_last_four',
+              test: "<%= Rails.env.test? %>",
             },
             validators: {
               card_number: {

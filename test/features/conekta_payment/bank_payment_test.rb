@@ -5,6 +5,10 @@ feature 'Bank Payment Test' do
     visit engine_routes.pay_root_path
   end
 
+  after do
+    WebMock.reset!
+  end
+
   scenario 'sanity' do
     page.must_have_content 'Su orden'
   end
@@ -32,5 +36,21 @@ feature 'Bank Payment Test' do
       page.must_have_css '.error-area'
       page.all('.error').length.must_equal 5
     end
+  end
+
+  scenario 'display confirmation page on successful payment' do
+    within('#new_pay') do
+      fill_in 'pay_email', with: 'sample@email.com'
+      #fill_in 'card_number', with: '4242424242424242'
+      page.execute_script("$('#card_number').val('4242 4242 4242 4242')")
+      fill_in 'card_name', with: 'John Doe'
+      #fill_in 'card_expiry', with: '01 20'
+      page.execute_script("$('#card_expiry').val('01 / 20')")
+      fill_in 'card_cvc', with: '987'
+
+      click_button 'Pagar MXN$ 200.00'
+    end
+
+    page.must_have_content 'Pay#create'
   end
 end

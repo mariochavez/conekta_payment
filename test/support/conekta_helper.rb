@@ -19,7 +19,9 @@ module ConektaHelper
   end
 
   def raise_exception
-    ->(args) { raise Exception.new('Critical error') }
+    ->(args) { raise Conekta::NoConnectionError.new('Critical error',
+                                           'Critical error', 1,
+                                           'no_connection', {}) }
   end
 
   private

@@ -9,6 +9,7 @@ require 'minitest/rails/capybara'
 require 'webmock/minitest'
 require 'capybara/poltergeist'
 require 'pry'
+require 'conekta'
 
 Rails.backtrace_cleaner.remove_silencers!
 
@@ -37,5 +38,12 @@ include ConektaHelper
 
 Capybara.javascript_driver = :poltergeist
 Capybara.default_driver = :poltergeist
+#Capybara.default_driver = :selenium
 
+@server_thread = Thread.new do
+  Rack::Handler::Thin.run Conekta::Server.new, :Port => 2121
+end
+sleep(1)
+
+Conekta.api_base = 'http://127.0.0.1:2121'
 WebMock.disable_net_connect!(allow_localhost: true)
