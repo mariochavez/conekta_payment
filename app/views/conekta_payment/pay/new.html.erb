@@ -5,7 +5,7 @@
 
   <%= render 'cart' %>
 
-  <%= form_for @pay, html: { class: 'pure-form' }, url: pay_path  do |form| %>
+  <%= form_for @pay, html: { class: 'pure-form pay-form' }, url: pay_path  do |form| %>
     <div class="pure-u-1">
       <h2><%= t('.shop_details') %></h2>
       <%= form.hidden_field :cart_id, value: shopping_cart[:cart_id] %>
@@ -21,7 +21,8 @@
     <%= render 'card' %>
 
     <div class="pure-u-1 action">
-      <div class="message-area">
+      <div class="message-area <%= 'error-area' if @pay.error.present? %>">
+        <%= "<p>#{@pay.error['message_to_purchaser']}</p>".html_safe if @pay.error.present? %>
       </div>
 
       <%= form.submit "Pagar #{number_to_currency(shopping_cart[:subtotal], unit: t('money.unit'))}", class: 'pure-button pure-button-primary', id: 'pay_action', disabled: true %>
@@ -31,46 +32,49 @@
 
 <% content_for :javascripts  do %>
   <script type="text/javascript">
-    $(function() {
-        var cardWidget = new CardWidget('#new_pay', {
-          validDate: "<%= t('.valid_date') %>",
-          monthYear: "<%= t('.month_year') %>"
-          }, {
+    var init = function() {
+      var cardWidget = new CardWidget('.pay-form', {
+        validDate: "<%= t('.valid_date') %>",
+        monthYear: "<%= t('.month_year') %>"
+        }, {
           name: "<%= t('.card_name') %>"
-          });
+        });
 
-        var preProcessor = new PreProcess('#new_pay', '#pay_action',
-          {
-            config: {
-              message_area_class: 'message-area',
-              message_area_error_class: 'error-area',
-              field_error_class: 'error',
-              message_area: "<%= t('conekta_payment.errors.message') %>",
-              token_field: 'pay_conekta_token',
-              last_four_field: 'pay_last_four',
-              test: "<%= Rails.env.test? %>",
-            },
-            validators: {
-              card_number: {
-                validator: 'validateNumber',
-                klass: Conekta.card
-              }
-            },
-            messages: {
-              email: "<%= t('conekta_payment.errors.email') %>",
-              card_number: "<%= t('conekta_payment.errors.card_number') %>",
-              card_cvc: "<%= t('conekta_payment.errors.card_cvc') %>",
-              card_name: "<%= t('conekta_payment.errors.card_name') %>",
-              card_expiry: "<%= t('conekta_payment.errors.card_expiry') %>"
-            },
-            fields: {
-              card_number: 'card_number',
-              card_cvc: 'card_cvc',
-              card_name: 'card_name',
-              card_expiry: 'card_expiry',
-              email: 'pay_email'
+      var preProcessor = new PreProcess('.pay-form', '#pay_action',
+        {
+          config: {
+            message_area_class: 'message-area',
+            message_area_error_class: 'error-area',
+            field_error_class: 'error',
+            message_area: "<%= t('conekta_payment.errors.message') %>",
+            token_field: 'pay_conekta_token',
+            last_four_field: 'pay_last_four',
+            test: <%= Rails.env.test? %>,
+          },
+          validators: {
+            card_number: {
+              validator: 'validateNumber',
+              klass: Conekta.card
             }
-          });
-    });
+          },
+          messages: {
+            email: "<%= t('conekta_payment.errors.email') %>",
+            card_number: "<%= t('conekta_payment.errors.card_number') %>",
+            card_cvc: "<%= t('conekta_payment.errors.card_cvc') %>",
+            card_name: "<%= t('conekta_payment.errors.card_name') %>",
+            card_expiry: "<%= t('conekta_payment.errors.card_expiry') %>"
+          },
+          fields: {
+            card_number: 'card_number',
+            card_cvc: 'card_cvc',
+            card_name: 'card_name',
+            card_expiry: 'card_expiry',
+            email: 'pay_email'
+          }
+        });
+    }
+
+    $(document).ready(init);
+    $(document).on('page:load', init);
   </script>
 <% end %>

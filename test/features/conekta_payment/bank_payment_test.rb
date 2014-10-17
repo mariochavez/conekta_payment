@@ -75,4 +75,20 @@ feature 'Bank Payment Test' do
 
     page.must_have_content 'Pay#error'
   end
+
+  scenario 'display payment form with error message when error is recoverable' do
+    within('#new_pay') do
+      page.execute_script("$('#card_number').val('4539 5569 0599 0829')")
+      page.execute_script("$('#card_expiry').val('01 / 20')")
+
+      fill_in 'pay_email', with: 'sample@email.com'
+      fill_in 'card_name', with: 'John Doe'
+      fill_in 'card_cvc', with: '987'
+
+      click_button 'Pagar MXN$ 200.00'
+    end
+
+    page.must_have_css '.error-area'
+    page.must_have_content 'Su tarjeta fue declinada'
+  end
 end

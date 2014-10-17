@@ -15,7 +15,18 @@ module ConektaHelper
   def failed_payment
     hash = payment_hash.clone
     hash['status'] = 'pending_payment'
+    hash['failure_message'] = 'Su tarjeta fue declinada'
     hash
+  end
+
+  def error_payment
+    {
+      message: 'Tarjeta declinada',
+      message_to_purchaser: 'Su tarjeta fue declinada',
+      type: 'card_error',
+      code: 'card_declined',
+      param: '11111'
+    }
   end
 
   def raise_exception
