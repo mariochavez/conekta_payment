@@ -45,7 +45,7 @@ Este engine espera que tu `ApplicationController` exponga el método `shopping_c
       }
     end
 
-![conekta_payment](https://cloud.githubusercontent.com/assets/59968/5365083/707c5b58-7fae-11e4-9ac0-b2d24e308449.png)
+![conekta_payment](https://cloud.githubusercontent.com/assets/59967/5365083/707c5b58-7fae-11e4-9ac0-b2d24e308449.png)
 
 ## Personalización
 Para personalizar el `look & feel` de la aplicación sólo es neceasario recrear las vistas del engine dentro de `views/conekta_payment` y poner tu lado creativo en ellas ;)
