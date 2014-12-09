@@ -9,6 +9,9 @@ es:
         month_year: 'mm/yy'
         card_name: 'NOMBRE COMPLETO'
 
+      create:
+        shop_title: 'Gracias por su compra'
+
       card:
         card_notice: 'Los datos de su tarjeta se cifran antes de ser transmitidos.'
         credit_payment: 'Para pagar con tarjeta de crédito o débito llene los siguientes datos.'

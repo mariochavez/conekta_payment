@@ -14,6 +14,13 @@ module ConektaPayment
       write_attribute :charge, value
     end
 
+    def payment_details
+      return nil unless self.charge.present?
+
+      data = self.charge['payment_method'].gsub('=>', ':')
+      JSON.parse data
+    end
+
     def to_charge
       {
         curreny: BASE_CURRENY,

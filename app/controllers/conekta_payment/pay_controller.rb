@@ -30,9 +30,13 @@ module ConektaPayment
         pay.save
       end
 
-      @pay = build_pay_from(pay)
+      if error
+        @pay = build_pay_from(pay)
+        log_message error, pay
+      else
+        @pay = pay
+      end
 
-      log_message error, pay if error
       render view
     end
 
